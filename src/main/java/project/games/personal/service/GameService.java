@@ -39,6 +39,7 @@ public class GameService {
     public List<GameMinDTO> findAll() {
 
         List<Games> result = gameRepository.findAll();
+
         return result.stream().map(GameMapper::entityToMinDto).toList();
     }
 }

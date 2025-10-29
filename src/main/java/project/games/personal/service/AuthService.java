@@ -24,7 +24,9 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public TokenDTO login(AccountCredentialsDTO dto) {
-        Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
+        Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(
+                dto.getEmail(),
+                dto.getPassword()));
 
         String token = jwtProvider.createToken(dto.getEmail(), auth.getAuthorities());
         Instant expires = Instant.now().plusMillis(jwtProvider.getValidityMs());
