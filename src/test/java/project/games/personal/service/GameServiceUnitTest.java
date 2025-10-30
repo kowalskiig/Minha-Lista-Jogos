@@ -1,5 +1,6 @@
 package project.games.personal.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import project.games.personal.entity.assertions.GamesAssertions;
+import project.games.personal.exception.ResourceNotFoundException;
 import project.games.personal.repository.GameRepository;
 
 import java.util.Optional;
@@ -56,12 +58,37 @@ public class GameServiceUnitTest {
                         .returnGameWithAllAtributes();
 
             }
-
-
-
-
         }
 
+        @DisplayName("Quando executar com falha")
+        @Nested
+        class Falha{
+
+            @DisplayName("Quando Id não existir, retornar ResourceNotFoundException")
+            @Test
+            void test2(){
+                // dados
+                var idInexistente = 2L;
+
+                Mockito.when(gameRepository.findById(idInexistente))
+                        .thenReturn(Optional.empty());
+
+                //quando
+
+                ResourceNotFoundException exception = Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+                    gameService
+                            .findById(idInexistente);
+                });
+
+                assertThat(exception.getMessage())
+                        .isEqualTo("Id " + idInexistente + " does not correspond to any game");
+
+                //entao
+
+
+            }
+
+        }
 
 
     }
