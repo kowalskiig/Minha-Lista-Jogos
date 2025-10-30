@@ -61,7 +61,28 @@ public class GameServiceIT implements PostgresSetup {
             }
         }
 
+        @DisplayName("Quando cenário de erro")
+        @Nested
+        class Erro{
 
+            @DisplayName("Deve retornar 404 quando id não existir na base")
+            @Test
+            void test2(){
+
+                //dado
+                var gameIdInexistente = 2000L;
+
+                //quando
+                given()
+
+                        .get("/games/{id}", gameIdInexistente)
+                //entao
+                        .then()
+                        .statusCode(404);
+
+            }
+
+        }
 
     }
 
