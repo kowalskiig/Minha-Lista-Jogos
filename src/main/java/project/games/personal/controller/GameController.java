@@ -1,6 +1,5 @@
 package project.games.personal.controller;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,15 +20,13 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-    @SecurityRequirement(name = "bearerAuth")
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<GameDTO> findByID(@PathVariable Long id){
         Games result = gameService.findById(id);
         return ResponseEntity.ok(GameMapper.entityToFullDto(result));
     }
 
-
-    @SecurityRequirement(name = "bearerAuth")
     @GetMapping
     public ResponseEntity<List<GameMinDTO>> findAll(){
         List<GameMinDTO> result = gameService.findAll();
