@@ -29,8 +29,13 @@ public class GameController {
 
     @GetMapping
     public ResponseEntity<List<GameMinDTO>> findAll(){
-        List<GameMinDTO> result = gameService.findAll();
-        return ResponseEntity.ok(result);
+
+        List<Games> games = gameService.findAll();
+
+        List<GameMinDTO> response = games.stream().map( x ->
+                (GameMapper.entityToMinDto(x))).toList();
+
+        return ResponseEntity.ok(response);
 
     }
 }
