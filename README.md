@@ -1,23 +1,15 @@
-#  GameList 
+#  Minha lista de Jogos
 
-Aplicação backend para organização de listas de jogos, desenvolvida com foco em **boas práticas, separação de camadas, arquitetura limpa e deploy em produção via Railway**. Projeto ideal para consolidar conhecimentos em **Spring Boot + PostgreSQL + Docker**, com suporte completo a reordenação de listas.
+## Objetivo do projeto
+
+- Sistema em que usuários podem criar gerenciar listas de jogos, realizando operações nas mesmas.
+- O objetivo do projeto foi construir uma aplicação obtendo prática no desenvolvimento com Java e Spring Boot, e treinar habilidades que eu aprendo em treinamentos de forma prática, resolvendo um problema meu.
+- Como esse projeto é antigo de Abril de 2025, fui aprendendo novas coisas e aplicando para deixar o projeto bem robusto e seguro.
 
 
-<p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=java,spring,postgres,docker,aws" />
-  </a>
-</p>
-<p align="center">
-  <img src="https://img.shields.io/badge/Deploy-AWS-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" />
-</p>
+## Etapas que o projeto passou
 
-## Visão Geral do Projeto
-
-O **GameList** é uma aplicação backend REST para gerenciamento de listas personalizadas de jogos.
-
-### 🔹 Antes da Refatoração
+### 1 parte:
 
 O projeto foi originalmente desenvolvido como um exercício introdutório para praticar:
 - CRUD simples com **Java + Spring Boot**
@@ -27,74 +19,72 @@ O projeto foi originalmente desenvolvido como um exercício introdutório para p
 No entanto, não havia:
 - Tratamento de exceções estruturado
 - Validações adequadas dos dados
-- Separação total de responsabilidades (camadas estavam acopladas)
+- Endpoins retornava entidades, e não retornavam status code.
+- Também alguns problemas de performance com o banco de dados, com consultas ineficientes retornando todos os dados sempre.
+
+### 2 parte:
+
+Foco foi implementar e aplicar boas práticas no desenvolvimento de APIs REST, com uma visão mais criticas do desenvolvimento de software:
+- Implementei um sistema de login com Spring Security, configurando o sistema de geração de token e bloqueio de endpoints por roles.
+- Implementei retornos com status code e implementei alguma validações no service para dados inexistentes e inconsistentes.
+- Refatorei linhas de código no service, removendo redundancias e reduzindo linhas de códigos inuteis.
+- Desenvolvi utilizando o Docker, com setup do banco de dados.
+
+Foi realizada em Agosto/Setembro de 2025.
 
 
+### 3 parte:
 
-### 🔸 Depois da Refatoração
+Essa é a etapa atual, a refatoração que eu faço hoje, meu aprendizado e maturidade me permitiram olhar a esse projeto com uma visão mais critica do que as outras versões, então decidi implementar:
 
-A nova versão do projeto evoluiu para um backend **muito mais robusto e alinhado com padrões profissionais**, incluindo:
-
--  Arquitetura em **camadas bem definidas** (`Controller`, `Service`, `DTO`, `Exception`, `Mapper`) ✔️
--  **Validações automáticas** com Bean Validation (`@NotNull`, `@Size`, etc.) ✔️
--  **Tratamento global de erros** via `@ControllerAdvice` ✔️
--  Sistema de segurança utilizando SpringSecurity e tokens JWT ✔️
--  Estrutura pronta para evoluir com novas features ✔️
--  Deploy na AWS com EC2, RDS ✔️
-
-> 🔄 Essa refatoração não apenas elevou a qualidade do projeto, como também me permitiu melhorar minhas habilidades em boas práticas e design limpo em aplicações reais com Spring Boot.
-
-> ---
-
-## Deploy(AWS)
-
-Para consolidar a experiência de *cloud deployment*, realizei um deploy simples utilizandoa AWS.
+- Implementei testes automatizados, focados totalmente na legibilidade e manutenção ao longo do tempo.
+- Utilizei JUnit5/Mockito para unitários, Testcontainers e RestAssured para integração.
+- Implementei uma esteira de CI/CD completa seguindo a documentação do próprio GitHub Actions, que roda testes, builda a imagem e enviar ao DockerHub.
 
 
-*  Consegui configurar e gerenciar uma instância **Amazon EC2** do zero para hospedar o *backend*.
-* A experiência com o **Amazon RDS (PostgreSQL)** me mostrou como é fácil ter um banco de dados robusto, focado apenas no código e na performance, sem me preocupar com a infraestrutura.
-*  Apliquei o conhecimento de **Security Groups** para garantir que o EC2 e o RDS conversassem de forma segura, o que é crucial em qualquer ambiente de produção.
+Além disso:
+
+- Tive uma visão mais clara de Clean Arch, e o que os módulos podem acessar diretamente, como módulos de alto nível (service) não devem depender de baixo nível (dtos) e refatorei com base nisso.
+- Ganhei familiaridade com a estrutura do pom.xml e uso do Maven, gerenciando depedências ao longo do projeto.
+- E obtive experiência procurando e acessando documentações na internet, para resolução dos problemas.
 
 
-Abaixo estão as "provas" de que a API funcionou perfeitamente:
+### O projeto não está totalmente completo pois não achei necessário implementar por inteiro, visto que os conceitos e práticas já aprendidos e implementados.
+
+---
+
+### Deploy na AWS 
+
+Também decidi explorar a AWS e realizar o deploy visando aumentar minha familiaridade.
+
+- Criei uma instância do EC2, baixei Docker e rodei a imagem da aplicação.
+- Configurei o RDS de forma simples, e conectei a API por meio de variáveis de ambiente.
+- Mais entendimento sobre SecurityGroups, IAM e Custos nos recursos Cloud.
+
+
+### Abaixo algumas imagens do Deploy que ja foi cancelado:
 
 * **Container Docker Rodando:** A execução do *backend* na instância EC2 (ver [Issue #6](https://github.com/kowalskiig/Gerenciador-de-Jogos/issues/6#issue-3459757712)).
 * **Teste de Endpoints via Postman:** Demonstração do retorno da API em produção (ver [Issue #3](https://github.com/kowalskiig/Gerenciador-de-Jogos/issues/3#issue-3454867226)).
 * **Estrutura de Banco de Dados:** A prova de que o PostgreSQL do RDS estava pronto para receber os dados (ver [Issue #7](https://github.com/kowalskiig/Gerenciador-de-Jogos/issues/7#issue-3459760728)).
 
-
-##  Aprendizados Técnicos
-
-- Manipulação de relacionamentos complexos com JPA (ManyToMany com entidade intermediária) ✔️  
-- Uso de projeções com Spring Data JPA para melhorar a performance ✔️  
-- Separação clara por camadas e responsabilidades (controller, service, repository) ✔️  
-- Aplicação real de arquitetura limpa em projetos REST ✔️  
-- Deploy de aplicações backend com banco de dados no **Railway** ✔️
-- Deploy de aplicação backend com máquinas virtuais e banco de dados no **AWS** ✔️  
-- Integração com Postman para testes completos dos endpoints ✔️
-
 ---
-##  Modelo Conceitual
 
-A estrutura do domínio foi modelada com foco na organização e reordenação de jogos:
-
-- **Game**: entidade principal contendo título, capa, descrição, gênero e outras propriedades do jogo
-- **GameList**: lista personalizada de jogos, criada para organizar preferências do usuário
-- **BelongsTo**: entidade de associação entre `Game` e `GameList`, com um atributo de `position` que indica a ordem do jogo dentro da lista
 
 ##  Tecnologias Utilizadas
 
-| Tecnologia       | Descrição                                        |
-|------------------|--------------------------------------------------|
-| **Java 21**       | Linguagem principal da aplicação                 |
-| **Spring Boot 3** | Framework para criação de APIs REST              |
-| **Spring Data JPA / Hibernate** | Persistência e ORM                      |
-| **PostgreSQL**    | Banco de dados relacional                       |
-| **Docker**        | Containerização do banco de dados
-
+- Java 21
+- Spring Security
+- GitHub Actions para CI/CD
+- AWS EC2
+- AWS RDS
+- Docker
+- PostgreSQL
 
 ---
 
-📬 Conecte-se comigo 
-  <a href="https://www.linkedin.com/in/gustavokowalski/" target="_blank">LinkedIn</a> | 
-  <a href="mailto:kkowalskigustavo@gmail.com">Email</a>
+
+<p>
+  <a href="https://www.linkedin.com/in/gustavokowalski/" target="_blank" style="margin-right: 20px;">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+  </a>
