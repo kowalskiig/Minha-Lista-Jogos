@@ -2,6 +2,7 @@ package project.games.personal.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import project.games.personal.dto.GameMinDTO;
 import project.games.personal.entities.Games;
 import project.games.personal.projections.GameMinProjection;
 

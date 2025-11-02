@@ -2,7 +2,10 @@ package project.games.personal.entity.assertions;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import project.games.personal.dto.GameMinDTO;
 import project.games.personal.entities.Games;
+
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.spy;
@@ -11,6 +14,7 @@ import static org.mockito.Mockito.spy;
 public class GamesAssertions {
 
     private final Games games;
+
 
     public static GamesAssertions assertGames(Games entity) {
         return new GamesAssertions(spy(entity));
@@ -36,4 +40,5 @@ public class GamesAssertions {
         assertThat(games.getLongDescription())
                 .isEqualTo("Uma descrição bem mais longa e detalhada.");
     }
+
 }

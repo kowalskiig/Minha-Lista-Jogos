@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project.games.personal.dto.GameListDTO;
 import project.games.personal.dto.ReplacementDTO;
 import project.games.personal.entities.GameList;
+import project.games.personal.entities.Games;
 import project.games.personal.projections.GameMinProjection;
 import project.games.personal.repository.GameListRepository;
 import project.games.personal.repository.GameRepository;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 public class GameListService {
+
     @Autowired
     private GameListRepository gameListRepository;
     @Autowired

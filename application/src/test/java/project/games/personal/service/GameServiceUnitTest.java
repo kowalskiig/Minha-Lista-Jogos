@@ -9,13 +9,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import project.games.personal.dto.GameMinDTO;
 import project.games.personal.entity.assertions.GamesAssertions;
+import project.games.personal.entity.factory.GameFactory;
 import project.games.personal.exception.ResourceNotFoundException;
+import project.games.personal.projections.GameMinProjection;
 import project.games.personal.repository.GameRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static project.games.personal.entity.factory.GameFactory.criaGameMinProjection;
 import static project.games.personal.entity.factory.GameFactory.criarGameComTodosOsCampos;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,11 +54,11 @@ public class GameServiceUnitTest {
                         .thenReturn(Optional.of(jogoExistente));
 
                 // quando
+
                 var games = gameService
                         .findById(idJogoExistente);
 
                 //validacao
-
 
                 GamesAssertions.assertGames(games)
                         .returnGameWithAllAtributes();
@@ -68,6 +74,7 @@ public class GameServiceUnitTest {
             @Test
             void test2(){
                 // dados
+
                 var idInexistente = 2L;
 
                 Mockito.when(gameRepository.findById(idInexistente))
@@ -80,16 +87,61 @@ public class GameServiceUnitTest {
                             .findById(idInexistente);
                 });
 
+                //entao
+
                 assertThat(exception.getMessage())
                         .isEqualTo("Id " + idInexistente + " does not correspond to any game");
-
-                //entao
 
 
             }
 
         }
 
+
+    }
+
+    @DisplayName("Quando acessar o método findByList")
+    @Nested
+    class findByList{
+
+        @DisplayName("Executar com sucesso")
+        @Nested
+        class Sucesso{
+
+            @DisplayName("Quando id da lista existir, retorna Lista de GameMinDTO com todos os campos")
+            @Test
+            void teste1(){
+
+                //dado
+
+                var idExistenteListGame = 1L;
+
+                var gameProjection = criaGameMinProjection();
+
+                List<GameMinProjection> listGameMinProjection = new ArrayList<>();
+                listGameMinProjection.add(gameProjection);
+
+                Mockito.when(gameRepository.searchByList(idExistenteListGame))
+                        .thenReturn(listGameMinProjection);
+
+                //quando
+
+                var result = gameService.findByList(idExistenteListGame);
+
+                //entao
+
+                assertThat(result.getFirst().getId())
+                        .isEqualTo(gameProjection.getId());
+
+                assertThat(result.getFirst().getTitle())
+                        .isEqualTo(gameProjection.getTitle());
+
+                assertThat(result.size())
+                        .isEqualTo(1);
+
+            }
+
+        }
 
     }
 
