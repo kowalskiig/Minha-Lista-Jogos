@@ -40,7 +40,6 @@ public class GameService {
     public List<Games> findAll() {
 
         return gameRepository.findAll();
-
     }
 }
 

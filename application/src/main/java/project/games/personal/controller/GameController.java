@@ -23,8 +23,11 @@ public class GameController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<GameDTO> findByID(@PathVariable Long id){
+
         Games result = gameService.findById(id);
+
         return ResponseEntity.ok(GameMapper.entityToFullDto(result));
+
     }
 
     @GetMapping
