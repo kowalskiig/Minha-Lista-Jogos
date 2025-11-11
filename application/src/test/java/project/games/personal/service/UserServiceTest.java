@@ -1,5 +1,6 @@
 package project.games.personal.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import project.games.personal.dto.InsertUserDTO;
 import project.games.personal.dto.UserDTO;
 import project.games.personal.entities.User;
+import project.games.personal.exception.ConflictException;
+import project.games.personal.exception.ResourceNotFoundException;
 import project.games.personal.repository.UserRepository;
 
 import java.util.Optional;
@@ -78,6 +81,38 @@ public class UserServiceTest {
 
 
             }
+        }
+        @DisplayName("Deve executar com erro")
+        @Nested
+        class Falha {
+
+            @DisplayName("Quando email já existir, retornar conflictexception")
+            @Test
+            void test2(){
+
+                //dado
+
+                User user = new User();
+
+                InsertUserDTO insertUserDTO = new InsertUserDTO("test@gmail.com", "UserTest", "password");
+                Mockito.when(userRepository.findByEmail(any()))
+                        .thenReturn(Optional.of(user));
+
+
+                //quando
+                ConflictException exception = Assertions.assertThrows(ConflictException.class, () -> {
+                    userService
+                            .createUser(insertUserDTO);
+                });
+
+                //entao
+                assertThat(exception)
+                        .isNotNull();
+
+
+
+            }
+
         }
     }
 
