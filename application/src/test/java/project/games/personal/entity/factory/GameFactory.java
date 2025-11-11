@@ -2,6 +2,7 @@ package project.games.personal.entity.factory;
 
 
 import project.games.personal.entities.Games;
+import project.games.personal.projections.GameMinProjection;
 
 public final class GameFactory {
 
@@ -21,5 +22,35 @@ public final class GameFactory {
                 .longDescription("Uma descrição bem mais longa e detalhada.")
                 .build();
 
+    }
+
+    public static GameMinProjection criarGameProjectionCompleto() {
+
+        return new GameMinProjection() {
+            @Override
+            public Long getId() {
+                return 1L;
+            }
+
+            @Override
+            public String getTitle() {
+                return "Salve";
+            }
+
+            @Override
+            public Integer getGameYear() {
+                return 2002;
+            }
+
+            @Override
+            public String getImgUrl() {
+                return "Salve";
+            }
+
+            @Override
+            public String getShortDescription() {
+                return "Opa";
+            }
+        };
     }
 }
