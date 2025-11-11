@@ -1,6 +1,7 @@
 package project.games.personal.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,8 +9,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Entity
 @Table(name = "tb_user")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User implements UserDetails {
 
     @Id
@@ -27,7 +34,6 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User(){}
 
     public User(String name, String email) {
         this.name = name;
@@ -35,23 +41,10 @@ public class User implements UserDetails {
         this.roles.add(new Role(1L, "'ROLE_USER')"));
     }
 
-    public Long getId() {
-        return id;
-    }
 
 
     public void updatePassword(String password) {
         this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-
-
-    public String getName() {
-        return name;
     }
 
 
